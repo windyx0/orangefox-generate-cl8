@@ -21,6 +21,8 @@ jobs:
         chmod +x ~/bin/repo
         git config --global user.name "OrangeFox Build"
         git config --global user.email "build@orangefox.download"
+        git config --global --remove-section http."https://github.com/" || true
+        git config --global credential.helper ""
 
     - name: Sync OrangeFox Sources
       run: |
