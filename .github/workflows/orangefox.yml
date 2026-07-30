@@ -35,11 +35,13 @@ jobs:
 
     - name: Build OrangeFox
       run: |
-        set -x
+        set +e
         cd ~/OrangeFox
         source build/envsetup.sh
+        set -e
         lunch twrp_CL8-eng
         mka recoveryimage
+
 
 
     - name: Upload Build Artifact
