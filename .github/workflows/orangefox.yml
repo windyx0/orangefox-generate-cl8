@@ -31,7 +31,7 @@ jobs:
 
     - name: Copy Device Tree
       run: |
-        cp -r device ~/OrangeFox/
+        cp -r device/* ~/OrangeFox/device/
 
     - name: Build OrangeFox
       run: |
