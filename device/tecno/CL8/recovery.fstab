@@ -1,0 +1,18 @@
+# mount point       fstype    device                                                                flags
+/system             erofs     system                                                                flags=display="System";backup=1;logical;slotselect
+/vendor             erofs     vendor                                                                flags=display="Vendor";backup=1;logical;slotselect
+/product            erofs     product                                                               flags=display="Product";backup=1;logical;slotselect
+/system_ext         erofs     system_ext                                                            flags=display="System_ext";backup=1;logical;slotselect
+/metadata           ext4      /dev/block/by-name/metadata                                           flags=display="Metadata"
+/data               f2fs      /dev/block/by-name/userdata                                           flags=display="Data";backup=1;wipeingui;wipeduringfactoryreset;fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized
+/boot               emmc      /dev/block/by-name/boot                                               flags=display="Boot";backup=1;flashimg=1;slotselect
+/vendor_boot        emmc      /dev/block/by-name/vendor_boot                                        flags=display="Vendor Boot";backup=1;flashimg=1;slotselect
+/dtbo               emmc      /dev/block/by-name/dtbo                                               flags=display="DTBO";backup=1;flashimg=1
+/vbmeta             emmc      /dev/block/by-name/vbmeta                                             flags=display="VBMeta";backup=1;flashimg=1
+/misc               emmc      /dev/block/by-name/misc                                               flags=display="Misc";backup=1
+/nvram              emmc      /dev/block/by-name/nvram                                              flags=display="NVRAM";backup=1
+/nvdata             ext4      /dev/block/by-name/nvdata                                             flags=display="NVDATA";backup=1
+/nvcfg              ext4      /dev/block/by-name/nvcfg                                              flags=display="NVCFG";backup=1
+/protect_f          ext4      /dev/block/by-name/protect1                                           flags=display="Protect_F";backup=1
+/protect_s          ext4      /dev/block/by-name/protect2                                           flags=display="Protect_S";backup=1
+/persist            ext4      /dev/block/by-name/persist                                            flags=display="Persist";backup=1

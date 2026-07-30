@@ -1,0 +1,49 @@
+name: OrangeFox Recovery CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build OrangeFox
+    runs-on: ubuntu-22.04
+    
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v4
+
+    - name: Setup build environment
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib libc6-dev lib32ncurses5-dev x11proto-core-dev libx11-dev tree lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev libxml2 lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libncurses5 python3 python-is-python3
+        mkdir -p ~/bin
+        wget 'https://storage.googleapis.com/git-repo-downloads/repo' -P ~/bin
+        chmod +x ~/bin/repo
+        git config --global user.name "OrangeFox Build"
+        git config --global user.email "build@orangefox.download"
+
+    - name: Sync OrangeFox Sources
+      run: |
+        mkdir ~/OrangeFox
+        cd ~/OrangeFox
+        ~/bin/repo init -u https://gitlab.com/OrangeFox/manifest.git -b fox_12.1 --depth=1
+        ~/bin/repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
+
+    - name: Copy Device Tree
+      run: |
+        cp -r device ~/OrangeFox/
+
+    - name: Build OrangeFox
+      run: |
+        cd ~/OrangeFox
+        source build/envsetup.sh
+        lunch twrp_CL8-eng
+        mka recoveryimage
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: OrangeFox-CL8-Recovery
+        path: |
+          ~/OrangeFox/out/target/product/CL8/recovery.img
+          ~/OrangeFox/out/target/product/CL8/OrangeFox-*.zip
